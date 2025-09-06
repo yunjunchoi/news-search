@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const newInput = document.createElement('input');
         newInput.type = 'text';
         newInput.className = 'search-input input input-bordered mb-2';
-        newInput.placeholder = 'Enter search term';
+        newInput.placeholder = 'Enter search keyword'; // 라벨 톤과 맞춤
 
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent = '×';
@@ -168,6 +168,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
         container.appendChild(newInput);
         container.appendChild(deleteBtn);
+    });
+
+    // 🔤 라벨/버튼/팁 문구 동적 치환 (HTML 수정 없이)
+    // 1) 'Search Queries' → 'Search Keyword'
+    const labelCandidates = Array.from(document.querySelectorAll('label, h1, h2, h3, span, strong, p, div'));
+    labelCandidates.forEach(el => {
+        const t = el.textContent && el.textContent.trim();
+        if (t === 'Search Queries') {
+            el.textContent = 'Search Keyword';
+        }
+    });
+
+    // 2) '+ Add Query' 버튼 텍스트 교체
+    const addBtn = document.getElementById('addQueryBtn');
+    if (addBtn) addBtn.textContent = '+ Add Search Keyword';
+
+    // 3) 페이지 하단 'Tip' 문구 내 'OR' → 'AND' 교체
+    //    - tip 영역에 id나 class가 없을 수 있어, 길이가 과도하지 않은 블록 텍스트에 한해 교체
+    const tipCandidates = Array.from(document.querySelectorAll('small, p, div, li, footer, section'));
+    tipCandidates.forEach(el => {
+        const txt = el.textContent || '';
+        if (/Tip/i.test(txt) && /\bOR\b/.test(txt) && txt.length < 500) {
+            el.textContent = txt.replace(/\bOR\b/g, 'AND');
+        }
     });
 });
 
@@ -213,14 +237,18 @@ document.getElementById('searchBtn').addEventListener('click', () => {
     if (startDate) dateFilters.push(`after:${startDate}`);
     if (endDate)   dateFilters.push(`before:${endDate}`);
 
+    // ✅ AND 검색으로 변경
+    //  - 다중 입력칸의 각각을 하나의 "필수 키워드"로 가정
+    //  - 공백 포함 키워드는 "따옴표"로 감싸 정확한 구문을 우선
+    const andTerms = queries.map(q => (/\s/.test(q) ? `"${q}"` : q));
+    // 날짜 토큰까지 모두 AND 결합: 공백 결합은 Google News에서 AND로 해석
+    const searchQuery = [...andTerms, ...dateFilters].join(' ');
+
     // 국가 에디션 강제 파라미터
     const gl = (countryKey.includes('_') ? countryKey.split('_')[0] : countryKey).toUpperCase(); // 예: 'JP', 'CA'
     const lang = defaultLangByCountry[countryKey] || 'en'; // 예: 'ja'
     const hl = lang;                                       // 언어코드만
     const ceid = `${gl}:${lang}`;                          // 예: 'JP:ja'
-
-    // 기존 OR 조합 유지
-    const searchQuery = [...queries, ...dateFilters].join(' OR ');
 
     // 최종 URL
     const url = `https://news.google.com/search?q=${encodeURIComponent(searchQuery)}&hl=${encodeURIComponent(hl)}&gl=${encodeURIComponent(gl)}&ceid=${encodeURIComponent(ceid)}`;
