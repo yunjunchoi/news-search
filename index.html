@@ -34,25 +34,57 @@
                 <h2 class="card-title text-2xl mb-4">Global News Search</h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Search Keywords -->
                     <div class="form-control">
                         <label class="label">
-                            <span class="label-text">Search Keywords</span>
+                            <span class="label-text">Search Keyword</span>
                         </label>
                         <div id="queryContainer">
                             <input type="text" class="search-input input input-bordered mb-2" placeholder="Enter search term">
                         </div>
-                        <button id="addQueryBtn" class="btn btn-xs btn-outline mt-2">+ Add Keywords</button>
+                        <button id="addQueryBtn" class="btn btn-xs btn-outline mt-2">+ Add Search Keyword</button>
                     </div>
 
+                    <!-- Country + 간이검색창 -->
                     <div class="form-control">
                         <label class="label">
                             <span class="label-text">Country</span>
                         </label>
+
+                        <!-- 간이검색창 (HTML 직접 추가) -->
+                        <div class="mb-2 relative">
+                            <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                                <!-- Search icon -->
+                                <svg class="w-4 h-4 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </span>
+                            <input
+                                id="countryFilter"
+                                type="text"
+                                placeholder="Search country… (e.g., “jap”, “ca fr”)"
+                                class="input input-bordered w-full pl-9 pr-8"
+                                autocomplete="off"
+                            />
+                            <!-- clear 버튼 -->
+                            <button
+                                type="button"
+                                class="absolute inset-y-0 right-2 my-auto btn btn-ghost btn-xs"
+                                aria-label="Clear country search"
+                                onclick="document.getElementById('countryFilter').value=''; document.getElementById('countryFilter').dispatchEvent(new Event('input'));"
+                                title="Clear"
+                            >×</button>
+                        </div>
+
+                        <!-- 실제 국가 선택 -->
                         <select id="countrySelect" class="select select-bordered">
-                            <!-- Countries will be dynamically populated by JavaScript -->
+                            <!-- Groups & countries rendered by script.js (optgroup + options) -->
                         </select>
+                        <span class="text-xs opacity-60 mt-1">Type a few letters to filter. Group headers are non-selectable.</span>
                     </div>
 
+                    <!-- Start Date -->
                     <div class="form-control">
                         <label class="label">
                             <span class="label-text">Start Date</span>
@@ -60,6 +92,7 @@
                         <input type="date" id="startDate" class="input input-bordered">
                     </div>
 
+                    <!-- End Date -->
                     <div class="form-control">
                         <label class="label">
                             <span class="label-text">End Date</span>
@@ -71,7 +104,8 @@
                 <div class="card-actions justify-end mt-4">
                     <button id="searchBtn" class="btn btn-primary tooltip-custom" data-tooltip="Search results will open in a new tab">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
                         Search News
                     </button>
@@ -80,7 +114,7 @@
         </div>
 
         <div class="mt-4 text-sm text-gray-600">
-            <p>💡 Tip: Multiple search terms will be combined with AND. Date filters will be applied to narrow down results.</p>
+            <p>💡 Tip: Multiple search terms will be combined with <strong>AND</strong>. Date filters will be applied to narrow down results.</p>
         </div>
     </div>
 
