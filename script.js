@@ -1,91 +1,156 @@
 // script.js
 document.addEventListener('DOMContentLoaded', () => {
-    // ✅ 구글 뉴스 에디션 커버 국가/지역(다언어 국가는 분리 표기)
-    const countries = [
-        // Americas
-        { code: 'us', name: 'United States' },
-        { code: 'ca', name: 'Canada (English)' },
-        { code: 'ca_fr', name: 'Canada (Français)' },
-        { code: 'mx', name: 'Mexico' },
-        { code: 'ar', name: 'Argentina' },
-        { code: 'br', name: 'Brazil' },
-        { code: 'cl', name: 'Chile' },
-        { code: 'co', name: 'Colombia' },
-        { code: 'pe', name: 'Peru' },
-        { code: 've', name: 'Venezuela' },
-
-        // Europe (West/North)
-        { code: 'gb', name: 'United Kingdom' },
-        { code: 'ie', name: 'Ireland' },
-        { code: 'fr', name: 'France' },
-        { code: 'be_fr', name: 'Belgium (Français)' },
-        { code: 'be_nl', name: 'Belgium (Nederlands)' },
-        { code: 'nl', name: 'Netherlands' },
-        { code: 'de', name: 'Germany' },
-        { code: 'at', name: 'Austria' },
-        { code: 'ch_de', name: 'Switzerland (Deutsch)' },
-        { code: 'ch_fr', name: 'Switzerland (Français)' },
-        { code: 'ch_it', name: 'Switzerland (Italiano)' },
-        { code: 'it', name: 'Italy' },
-        { code: 'es', name: 'Spain' },
-        { code: 'pt', name: 'Portugal' },
-        { code: 'se', name: 'Sweden' },
-        { code: 'no', name: 'Norway' },
-        { code: 'dk', name: 'Denmark' },
-        { code: 'fi', name: 'Finland' },
-        { code: 'is', name: 'Iceland' },
-
-        // Europe (Central/East)
-        { code: 'pl', name: 'Poland' },
-        { code: 'cz', name: 'Czechia' },
-        { code: 'sk', name: 'Slovakia' },
-        { code: 'hu', name: 'Hungary' },
-        { code: 'ro', name: 'Romania' },
-        { code: 'bg', name: 'Bulgaria' },
-        { code: 'gr', name: 'Greece' },
-        { code: 'tr', name: 'Türkiye' },
-        { code: 'ua', name: 'Ukraine' },
-        { code: 'ru', name: 'Russia' }, // 일부 지역 접근 제한 가능
-
-        // Middle East & Africa
-        { code: 'il', name: 'Israel' },
-        { code: 'sa', name: 'Saudi Arabia' },
-        { code: 'ae', name: 'United Arab Emirates' },
-        { code: 'eg', name: 'Egypt' },
-        { code: 'za', name: 'South Africa' },
-        { code: 'ng', name: 'Nigeria' },
-        { code: 'ke', name: 'Kenya' },
-
-        // Asia-Pacific
-        { code: 'kr', name: 'Korea (South)' },
-        { code: 'jp', name: 'Japan' },
-        { code: 'cn', name: 'China (Mainland)' },  // Google News 접근/결과 제한 가능
-        { code: 'hk', name: 'Hong Kong' },
-        { code: 'tw', name: 'Taiwan' },
-        { code: 'sg', name: 'Singapore' },
-        { code: 'my', name: 'Malaysia' },
-        { code: 'th', name: 'Thailand' },
-        { code: 'vn', name: 'Vietnam' },
-        { code: 'ph', name: 'Philippines' },
-        { code: 'id', name: 'Indonesia' },
-        { code: 'in', name: 'India' },
-        { code: 'pk', name: 'Pakistan' },
-        { code: 'bd', name: 'Bangladesh' },
-        { code: 'au', name: 'Australia' },
-        { code: 'nz', name: 'New Zealand' }
+    // ✅ 지역별 국가 목록 (다언어 국가는 분리 코드 사용)
+    const groupedCountries = [
+        {
+            region: 'Americas',
+            items: [
+                { code: 'ar', name: 'Argentina' },
+                { code: 'br', name: 'Brazil' },
+                { code: 'ca', name: 'Canada (English)' },
+                { code: 'ca_fr', name: 'Canada (Français)' },
+                { code: 'cl', name: 'Chile' },
+                { code: 'co', name: 'Colombia' },
+                { code: 'mx', name: 'Mexico' },
+                { code: 'pe', name: 'Peru' },
+                { code: 'us', name: 'United States' },
+                { code: 've', name: 'Venezuela' }
+            ]
+        },
+        {
+            region: 'Europe (West/North)',
+            items: [
+                { code: 'at', name: 'Austria' },
+                { code: 'be_fr', name: 'Belgium (Français)' },
+                { code: 'be_nl', name: 'Belgium (Nederlands)' },
+                { code: 'dk', name: 'Denmark' },
+                { code: 'fi', name: 'Finland' },
+                { code: 'fr', name: 'France' },
+                { code: 'de', name: 'Germany' },
+                { code: 'ie', name: 'Ireland' },
+                { code: 'it', name: 'Italy' },
+                { code: 'nl', name: 'Netherlands' },
+                { code: 'no', name: 'Norway' },
+                { code: 'pt', name: 'Portugal' },
+                { code: 'es', name: 'Spain' },
+                { code: 'se', name: 'Sweden' },
+                { code: 'ch_de', name: 'Switzerland (Deutsch)' },
+                { code: 'ch_fr', name: 'Switzerland (Français)' },
+                { code: 'ch_it', name: 'Switzerland (Italiano)' },
+                { code: 'gb', name: 'United Kingdom' },
+                { code: 'is', name: 'Iceland' }
+            ]
+        },
+        {
+            region: 'Europe (Central/East)',
+            items: [
+                { code: 'bg', name: 'Bulgaria' },
+                { code: 'cz', name: 'Czechia' },
+                { code: 'gr', name: 'Greece' },
+                { code: 'hu', name: 'Hungary' },
+                { code: 'pl', name: 'Poland' },
+                { code: 'ro', name: 'Romania' },
+                { code: 'ru', name: 'Russia' },   // 일부 지역 접근 제한 가능
+                { code: 'sk', name: 'Slovakia' },
+                { code: 'tr', name: 'Türkiye' },
+                { code: 'ua', name: 'Ukraine' }
+            ]
+        },
+        {
+            region: 'Middle East & Africa',
+            items: [
+                { code: 'ae', name: 'United Arab Emirates' },
+                { code: 'eg', name: 'Egypt' },
+                { code: 'il', name: 'Israel' },
+                { code: 'ke', name: 'Kenya' },
+                { code: 'ng', name: 'Nigeria' },
+                { code: 'sa', name: 'Saudi Arabia' },
+                { code: 'za', name: 'South Africa' }
+            ]
+        },
+        {
+            region: 'Asia-Pacific',
+            items: [
+                { code: 'au', name: 'Australia' },
+                { code: 'bd', name: 'Bangladesh' },
+                { code: 'cn', name: 'China (Mainland)' }, // Google News 접근/결과 제한 가능
+                { code: 'hk', name: 'Hong Kong' },
+                { code: 'in', name: 'India' },
+                { code: 'id', name: 'Indonesia' },
+                { code: 'jp', name: 'Japan' },
+                { code: 'kr', name: 'Korea (South)' },
+                { code: 'my', name: 'Malaysia' },
+                { code: 'nz', name: 'New Zealand' },
+                { code: 'pk', name: 'Pakistan' },
+                { code: 'ph', name: 'Philippines' },
+                { code: 'sg', name: 'Singapore' },
+                { code: 'tw', name: 'Taiwan' },
+                { code: 'th', name: 'Thailand' },
+                { code: 'vn', name: 'Vietnam' }
+            ]
+        }
     ];
 
-    // 드롭다운 채우기 (Look & Feel 유지)
-    const select = document.getElementById('countrySelect');
-    select.innerHTML = '';
-    countries.forEach(({ code, name }) => {
-        const opt = document.createElement('option');
-        opt.value = code;
-        opt.textContent = name;
-        select.appendChild(opt);
+    // ✅ 각 지역 내부는 알파벳 정렬
+    groupedCountries.forEach(group => {
+        group.items.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
     });
 
-    // 동적 검색어 입력창 (UI 그대로 유지)
+    const select = document.getElementById('countrySelect');
+
+    // ✅ 간이 검색창 삽입 (HTML 수정 없이)
+    const filterInput = document.createElement('input');
+    filterInput.type = 'text';
+    filterInput.id = 'countryFilter';
+    filterInput.placeholder = 'Search country… (e.g., "jap", "ca fr")';
+    filterInput.className = 'input input-bordered mb-2';
+    select.parentNode.insertBefore(filterInput, select);
+
+    // ▶ 필터링: 여러 단어 AND 매칭 (name + code)
+    function filterGroups(query) {
+        if (!query.trim()) return groupedCountries;
+        const tokens = query.toLowerCase().split(/\s+/).filter(Boolean);
+
+        return groupedCountries
+            .map(group => {
+                const filtered = group.items.filter(({ code, name }) => {
+                    const hay = `${name} ${code}`.toLowerCase();
+                    return tokens.every(t => hay.includes(t));
+                });
+                return { region: group.region, items: filtered };
+            })
+            .filter(group => group.items.length > 0); // 빈 그룹 제거
+    }
+
+    // ▶ 렌더링: optgroup 으로 지역 헤더(브라우저 기본 음영/비선택 처리)
+    function renderOptions(groups) {
+        const prev = select.value;
+        select.innerHTML = '';
+        groups.forEach(group => {
+            const og = document.createElement('optgroup');
+            og.label = `— ${group.region} —`; // 시각적 구분감
+            group.items.forEach(({ code, name }) => {
+                const opt = document.createElement('option');
+                opt.value = code;
+                opt.textContent = name;
+                og.appendChild(opt);
+            });
+            select.appendChild(og);
+        });
+        // 기존 선택 유지 가능 시 복구
+        const hasPrev = [...select.querySelectorAll('option')].some(o => o.value === prev);
+        if (hasPrev) select.value = prev;
+    }
+
+    // 초기 렌더
+    renderOptions(groupedCountries);
+
+    // 입력 시 필터 적용
+    filterInput.addEventListener('input', () => {
+        renderOptions(filterGroups(filterInput.value));
+    });
+
+    // ▶ 동적 검색어 필드 추가(기존 Look & Feel)
     document.getElementById('addQueryBtn').addEventListener('click', () => {
         const container = document.getElementById('queryContainer');
         const newInput = document.createElement('input');
@@ -110,29 +175,21 @@ document.addEventListener('DOMContentLoaded', () => {
 //   hl=<lang>, gl=<COUNTRY>, ceid=<COUNTRY>:<lang>
 const defaultLangByCountry = {
     // Americas
-    us: 'en', ca: 'en', ca_fr: 'fr', mx: 'es', ar: 'es', br: 'pt', cl: 'es', co: 'es', pe: 'es', ve: 'es',
-
+    ar: 'es', br: 'pt', ca: 'en', ca_fr: 'fr', cl: 'es', co: 'es', mx: 'es', pe: 'es', us: 'en', ve: 'es',
     // Europe (West/North)
-    gb: 'en', ie: 'en', fr: 'fr', be_fr: 'fr', be_nl: 'nl', nl: 'nl',
-    de: 'de', at: 'de', ch_de: 'de', ch_fr: 'fr', ch_it: 'it', it: 'it',
-    es: 'es', pt: 'pt', se: 'sv', no: 'no', dk: 'da', fi: 'fi', is: 'is',
-
+    at: 'de', be_fr: 'fr', be_nl: 'nl', dk: 'da', fi: 'fi', fr: 'fr', de: 'de', ie: 'en', it: 'it',
+    nl: 'nl', no: 'no', pt: 'pt', es: 'es', se: 'sv', ch_de: 'de', ch_fr: 'fr', ch_it: 'it', gb: 'en', is: 'is',
     // Europe (Central/East)
-    pl: 'pl', cz: 'cs', sk: 'sk', hu: 'hu', ro: 'ro', bg: 'bg', gr: 'el', tr: 'tr', ua: 'uk', ru: 'ru',
-
+    bg: 'bg', cz: 'cs', gr: 'el', hu: 'hu', pl: 'pl', ro: 'ro', ru: 'ru', sk: 'sk', tr: 'tr', ua: 'uk',
     // Middle East & Africa
-    il: 'he', sa: 'ar', ae: 'ar', eg: 'ar', za: 'en', ng: 'en', ke: 'en',
-
+    ae: 'ar', eg: 'ar', il: 'he', ke: 'en', ng: 'en', sa: 'ar', za: 'en',
     // Asia-Pacific
-    kr: 'ko', jp: 'ja',
-    cn: 'zh-CN', hk: 'zh-HK', tw: 'zh-TW',
-    sg: 'en', my: 'ms', th: 'th', vn: 'vi', ph: 'en', id: 'id',
-    in: 'en', pk: 'ur', bd: 'bn',
-    au: 'en', nz: 'en'
+    au: 'en', bd: 'bn', cn: 'zh-CN', hk: 'zh-HK', in: 'en', id: 'id', jp: 'ja', kr: 'ko',
+    my: 'ms', nz: 'en', pk: 'ur', ph: 'en', sg: 'en', tw: 'zh-TW', th: 'th', vn: 'vi'
 };
 
 document.getElementById('searchBtn').addEventListener('click', () => {
-    // 기존 검색어 수집 로직 유지
+    // 기존 검색어 수집
     const queries = Array.from(document.querySelectorAll('.search-input'))
         .map(input => input.value.trim())
         .filter(q => q);
@@ -142,35 +199,32 @@ document.getElementById('searchBtn').addEventListener('click', () => {
         return;
     }
 
-    // 기존 날짜 입력값 로딩 (그대로)
+    // 날짜 입력/검증/토큰 (그대로 유지)
     const countryKey = document.getElementById('countrySelect').value; // 예: 'jp' 또는 'ca_fr'
     const startDate  = document.getElementById('startDate').value;
     const endDate    = document.getElementById('endDate').value;
 
-    // 기존 날짜 검증 로직 유지 (절대 변경 금지 요청 반영)
     if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
         alert('Start date must be before end date');
         return;
     }
 
-    // 기존 날짜 토큰 유지
     const dateFilters = [];
     if (startDate) dateFilters.push(`after:${startDate}`);
     if (endDate)   dateFilters.push(`before:${endDate}`);
 
-    // --- 국가 에디션 강제 파라미터 ---
-    // 다언어 코드(ca_fr, be_nl 등) 대응: gl은 앞부분 국가코드만 사용
+    // 국가 에디션 강제 파라미터
     const gl = (countryKey.includes('_') ? countryKey.split('_')[0] : countryKey).toUpperCase(); // 예: 'JP', 'CA'
     const lang = defaultLangByCountry[countryKey] || 'en'; // 예: 'ja'
     const hl = lang;                                       // 언어코드만
     const ceid = `${gl}:${lang}`;                          // 예: 'JP:ja'
 
-    // 기존 OR 조합 로직 유지
+    // 기존 OR 조합 유지
     const searchQuery = [...queries, ...dateFilters].join(' OR ');
 
-    // 최종 URL: 선택 국가 에디션으로 강제
+    // 최종 URL
     const url = `https://news.google.com/search?q=${encodeURIComponent(searchQuery)}&hl=${encodeURIComponent(hl)}&gl=${encodeURIComponent(gl)}&ceid=${encodeURIComponent(ceid)}`;
 
-    // 기존 동작 유지: 새 탭 오픈
+    // 새 탭 오픈
     window.open(url, '_blank');
 });
