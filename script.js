@@ -170,29 +170,6 @@ document.addEventListener('DOMContentLoaded', () => {
         container.appendChild(deleteBtn);
     });
 
-    // 🔤 라벨/버튼/팁 문구 동적 치환 (HTML 수정 없이)
-    // 1) 'Search Queries' → 'Search Keyword'
-    const labelCandidates = Array.from(document.querySelectorAll('label, h1, h2, h3, span, strong, p, div'));
-    labelCandidates.forEach(el => {
-        const t = el.textContent && el.textContent.trim();
-        if (t === 'Search Queries') {
-            el.textContent = 'Search Keyword';
-        }
-    });
-
-    // 2) '+ Add Query' 버튼 텍스트 교체
-    const addBtn = document.getElementById('addQueryBtn');
-    if (addBtn) addBtn.textContent = '+ Add Search Keyword';
-
-    // 3) 페이지 하단 'Tip' 문구 내 'OR' → 'AND' 교체
-    //    - tip 영역에 id나 class가 없을 수 있어, 길이가 과도하지 않은 블록 텍스트에 한해 교체
-    const tipCandidates = Array.from(document.querySelectorAll('small, p, div, li, footer, section'));
-    tipCandidates.forEach(el => {
-        const txt = el.textContent || '';
-        if (/Tip/i.test(txt) && /\bOR\b/.test(txt) && txt.length < 500) {
-            el.textContent = txt.replace(/\bOR\b/g, 'AND');
-        }
-    });
 });
 
 // ✅ 국가 → 기본 언어 매핑 (에디션 강제용)
