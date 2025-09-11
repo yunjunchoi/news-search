@@ -1,8 +1,13 @@
 // =========================
 // Config (영어권 엄격 모드)
 // =========================
-const USE_STRICT_LOCAL_FOR_ENGLISH = true; // true: US/GB/CA/AU는 google.com 뉴스탭(tbm=nws) + cr/lr 사용
-const ANGLO_COUNTRIES = new Set(['us', 'gb', 'ca', 'au']);
+const USE_STRICT_LOCAL_FOR_ENGLISH = true; // true: 지정된 영어권 국가는 google.com 뉴스탭(tbm=nws) + cr/lr 사용
+const ANGLO_COUNTRIES = new Set([
+  // 기존
+  'us','gb','ca','au',
+  // 추가
+  'nz','in','ie','sg','ph','za','ng','ke'
+]);
 
 // --------------------------------------------
 // 초기화: DOMContentLoaded 이후 국가/UX 세팅
@@ -406,35 +411,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ==============================
 // 국가 → 언어(hl) 기본 매핑
-//  ※ 영어권은 지역 변형으로 설정
+//  ※ 영어권은 지역 변형으로 설정 (US/GB/CA/AU/NZ/IN/IE/SG/PH/ZA/NG/KE)
 // ==============================
 const defaultLangByCountry = {
   // Americas
   ar: 'es', br: 'pt',
-  ca: 'en-CA',      // ✅ 변경
+  ca: 'en-CA',
   ca_fr: 'fr',
   cl: 'es', co: 'es', mx: 'es', pe: 'es',
-  us: 'en-US',      // ✅ 변경
+  us: 'en-US',
   ve: 'es',
   // Europe (West/North)
   at: 'de', be_fr: 'fr', be_nl: 'nl', dk: 'da', fi: 'fi', fr: 'fr', de: 'de',
-  ie: 'en', it: 'it', nl: 'nl', no: 'no', pt: 'pt', es: 'es', se: 'sv',
+  ie: 'en-IE',
+  it: 'it', nl: 'nl', no: 'no', pt: 'pt', es: 'es', se: 'sv',
   ch_de: 'de', ch_fr: 'fr', ch_it: 'it',
-  gb: 'en-GB',      // ✅ 변경
+  gb: 'en-GB',
   is: 'is',
   // Europe (Central/East)
   bg: 'bg', cz: 'cs', gr: 'el', hu: 'hu', pl: 'pl', ro: 'ro', ru: 'ru', sk: 'sk', tr: 'tr', ua: 'uk',
   // Middle East & Africa
-  ae: 'ar', eg: 'ar', il: 'he', ke: 'en', ng: 'en', sa: 'ar', za: 'en',
+  ae: 'ar', eg: 'ar', il: 'he',
+  ke: 'en-KE',
+  ng: 'en-NG',
+  sa: 'ar',
+  za: 'en-ZA',
   // Asia-Pacific
-  au: 'en-AU',      // ✅ 변경
-  bd: 'bn', cn: 'zh-CN', hk: 'zh-HK', in: 'en', id: 'id', jp: 'ja', kr: 'ko',
-  my: 'ms', nz: 'en', pk: 'ur', ph: 'en', sg: 'en', tw: 'zh-TW', th: 'th', vn: 'vi'
+  au: 'en-AU',
+  bd: 'bn', cn: 'zh-CN', hk: 'zh-HK',
+  in: 'en-IN',
+  id: 'id', jp: 'ja', kr: 'ko',
+  my: 'ms',
+  nz: 'en-NZ',
+  pk: 'ur',
+  ph: 'en-PH',
+  sg: 'en-SG',
+  tw: 'zh-TW', th: 'th', vn: 'vi'
 };
 
 // =====================================
 // 검색 실행 (AND 결합 + 날짜 로직 그대로)
-//  - 영어권 4개국은 기본 Strict Local 뉴스탭 사용
+//  - 지정 영어권은 기본 Strict Local 뉴스탭 사용
+//  - 그 외 국가는 news.google.com/search 경로
 // =====================================
 document.getElementById('searchBtn').addEventListener('click', () => {
   const queries = Array.from(document.querySelectorAll('.search-input'))
@@ -466,7 +484,7 @@ document.getElementById('searchBtn').addEventListener('click', () => {
   // gl / hl / ceid 계산
   const gl = (countryKey.includes('_') ? countryKey.split('_')[0] : countryKey).toUpperCase();
   const hlFull = defaultLangByCountry[countryKey] || 'en';
-  const ceidLang = (hlFull || 'en').split('-')[0]; // ceid는 언어코드를 축약형으로 쓰는 편이 호환성 좋음
+  const ceidLang = (hlFull || 'en').split('-')[0]; // ceid는 축약형 언어코드가 호환성 좋음
 
   // === URL 분기 ===
   let url = '';
@@ -483,8 +501,7 @@ document.getElementById('searchBtn').addEventListener('click', () => {
     params.set('hl', hlFull);
     params.set('gl', gl);
     params.set('cr', `country${gl}`);
-    // 영어권 기본 언어 제한 (예: en, en-GB 등 → lr=lang_en)
-    params.set('lr', `lang_${ceidLang}`);
+    params.set('lr', `lang_${ceidLang}`); // 영어권 기본은 lang_en
     url = `https://www.google.com/search?${params.toString()}`;
   } else {
     // ▶ 기본: Google News (로컬 '우선' 랭킹)
