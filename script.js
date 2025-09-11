@@ -1,13 +1,14 @@
 // =========================
-// Config (영어권 엄격 모드)
+// Config (Strict Local 확장)
 // =========================
-const USE_STRICT_LOCAL_FOR_ENGLISH = true; // true: 지정된 영어권 국가는 google.com 뉴스탭(tbm=nws) + cr/lr 사용
-const ANGLO_COUNTRIES = new Set([
-  // 기존
-  'us','gb','ca','au',
-  // 추가
-  'nz','in','ie','sg','ph','za','ng','ke'
-]);
+const USE_STRICT_LOCAL = true; // true: 아래 정의된 국가/언어권은 google.com 뉴스탭(tbm=nws) + cr/lr 사용
+
+// 언어권별 Strict 대상 국가(2글자 국가코드, 소문자)
+const STRICT_EN = new Set(['us','gb','ca','au','nz','in','ie','sg','ph','za','ng','ke']);
+const STRICT_FR = new Set(['fr','be','ch','ca']);     // ca는 아래에서 ca_fr 분기 처리
+const STRICT_ES = new Set(['es','mx','ar','co','cl','pe','ve']);
+const STRICT_AR = new Set(['ae','sa','eg']);
+const STRICT_ZH = new Set(['cn','hk','tw']);
 
 // --------------------------------------------
 // 초기화: DOMContentLoaded 이후 국가/UX 세팅
@@ -411,48 +412,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ==============================
 // 국가 → 언어(hl) 기본 매핑
-//  ※ 영어권은 지역 변형으로 설정 (US/GB/CA/AU/NZ/IN/IE/SG/PH/ZA/NG/KE)
+//  ※ 지역 변형 코드로 로컬 가중치 강화
 // ==============================
 const defaultLangByCountry = {
   // Americas
-  ar: 'es', br: 'pt',
+  ar: 'es-AR', br: 'pt-BR',
   ca: 'en-CA',
-  ca_fr: 'fr',
-  cl: 'es', co: 'es', mx: 'es', pe: 'es',
+  ca_fr: 'fr-CA',
+  cl: 'es-CL', co: 'es-CO', mx: 'es-MX', pe: 'es-PE',
   us: 'en-US',
-  ve: 'es',
+  ve: 'es-VE',
+
   // Europe (West/North)
-  at: 'de', be_fr: 'fr', be_nl: 'nl', dk: 'da', fi: 'fi', fr: 'fr', de: 'de',
-  ie: 'en-IE',
-  it: 'it', nl: 'nl', no: 'no', pt: 'pt', es: 'es', se: 'sv',
-  ch_de: 'de', ch_fr: 'fr', ch_it: 'it',
-  gb: 'en-GB',
-  is: 'is',
+  at: 'de-AT', be_fr: 'fr-BE', be_nl: 'nl-BE', dk: 'da-DK', fi: 'fi-FI',
+  fr: 'fr-FR', de: 'de-DE',
+  ie: 'en-IE', it: 'it-IT', nl: 'nl-NL', no: 'no-NO', pt: 'pt-PT', es: 'es-ES', se: 'sv-SE',
+  ch_de: 'de-CH', ch_fr: 'fr-CH', ch_it: 'it-CH',
+  gb: 'en-GB', is: 'is-IS',
+
   // Europe (Central/East)
-  bg: 'bg', cz: 'cs', gr: 'el', hu: 'hu', pl: 'pl', ro: 'ro', ru: 'ru', sk: 'sk', tr: 'tr', ua: 'uk',
+  bg: 'bg-BG', cz: 'cs-CZ', gr: 'el-GR', hu: 'hu-HU', pl: 'pl-PL', ro: 'ro-RO',
+  ru: 'ru-RU', sk: 'sk-SK', tr: 'tr-TR', ua: 'uk-UA',
+
   // Middle East & Africa
-  ae: 'ar', eg: 'ar', il: 'he',
-  ke: 'en-KE',
-  ng: 'en-NG',
-  sa: 'ar',
-  za: 'en-ZA',
+  ae: 'ar-AE', eg: 'ar-EG', il: 'he-IL', ke: 'en-KE', ng: 'en-NG', sa: 'ar-SA', za: 'en-ZA',
+
   // Asia-Pacific
-  au: 'en-AU',
-  bd: 'bn', cn: 'zh-CN', hk: 'zh-HK',
+  au: 'en-AU', bd: 'bn-BD',
+  cn: 'zh-CN', hk: 'zh-HK', tw: 'zh-TW',
   in: 'en-IN',
-  id: 'id', jp: 'ja', kr: 'ko',
-  my: 'ms',
-  nz: 'en-NZ',
-  pk: 'ur',
-  ph: 'en-PH',
-  sg: 'en-SG',
-  tw: 'zh-TW', th: 'th', vn: 'vi'
+  id: 'id-ID', jp: 'ja-JP', kr: 'ko-KR', my: 'ms-MY',
+  nz: 'en-NZ', pk: 'ur-PK', ph: 'en-PH', sg: 'en-SG',
+  th: 'th-TH', vn: 'vi-VN'
 };
 
 // =====================================
 // 검색 실행 (AND 결합 + 날짜 로직 그대로)
-//  - 지정 영어권은 기본 Strict Local 뉴스탭 사용
-//  - 그 외 국가는 news.google.com/search 경로
+//  - Strict 대상은 google.com 뉴스탭(tbm=nws) + cr/lr
+//  - 기타는 news.google.com/search (hl/gl/ceid)
 // =====================================
 document.getElementById('searchBtn').addEventListener('click', () => {
   const queries = Array.from(document.querySelectorAll('.search-input'))
@@ -484,16 +481,28 @@ document.getElementById('searchBtn').addEventListener('click', () => {
   // gl / hl / ceid 계산
   const gl = (countryKey.includes('_') ? countryKey.split('_')[0] : countryKey).toUpperCase();
   const hlFull = defaultLangByCountry[countryKey] || 'en';
-  const ceidLang = (hlFull || 'en').split('-')[0]; // ceid는 축약형 언어코드가 호환성 좋음
+  const baseLang = (hlFull || 'en').split('-')[0]; // lr=lang_{baseLang}
+  const ceidLang = baseLang; // news.google.com의 ceid에는 축약형 사용이 호환성 좋음
+
+  // Strict 여부 판단
+  const glLower = gl.toLowerCase();
+  const isCA_FR = (countryKey === 'ca_fr'); // 캐나다 프랑스어 특별 처리
+  const isStrictEnglish = STRICT_EN.has(glLower) && !isCA_FR;
+  const isStrictFrench  = isCA_FR || (STRICT_FR.has(glLower) && (baseLang === 'fr' || countryKey.endsWith('_fr')));
+  const isStrictSpanish = STRICT_ES.has(glLower) && baseLang === 'es';
+  const isStrictArabic  = STRICT_AR.has(glLower) && baseLang === 'ar';
+  const isStrictChinese = STRICT_ZH.has(glLower) && baseLang === 'zh';
+
+  const useStrict =
+    USE_STRICT_LOCAL && (isStrictEnglish || isStrictFrench || isStrictSpanish || isStrictArabic || isStrictChinese);
 
   // === URL 분기 ===
   let url = '';
-  const isAnglo = ANGLO_COUNTRIES.has(gl.toLowerCase()) && countryKey !== 'ca_fr';
 
-  if (USE_STRICT_LOCAL_FOR_ENGLISH && isAnglo) {
+  if (useStrict) {
     // ▶ Strict Local: Google 검색 "뉴스 탭" (tbm=nws)
     //    - cr=countryXX 로 국가 제한 신호 강화
-    //    - lr=lang_en 등으로 언어 제한
+    //    - lr=lang_xx 로 언어 제한(축약형)
     //    - hl/gl도 함께 전달
     const params = new URLSearchParams();
     params.set('tbm', 'nws');
@@ -501,7 +510,7 @@ document.getElementById('searchBtn').addEventListener('click', () => {
     params.set('hl', hlFull);
     params.set('gl', gl);
     params.set('cr', `country${gl}`);
-    params.set('lr', `lang_${ceidLang}`); // 영어권 기본은 lang_en
+    params.set('lr', `lang_${baseLang}`); // fr/es/ar/zh/en 등
     url = `https://www.google.com/search?${params.toString()}`;
   } else {
     // ▶ 기본: Google News (로컬 '우선' 랭킹)
