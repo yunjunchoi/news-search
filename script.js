@@ -25,7 +25,7 @@ const MAX_HISTORY = 50; // Limit history to prevent excessive storage
 class GeminiAPI {
   constructor(apiKey) {
     this.apiKey = apiKey;
-    this.baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent';
+    this.baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
   }
 
   async generateSummary(searchQuery, country, dateRange) {
