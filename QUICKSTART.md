@@ -4,9 +4,9 @@ Get up and running with News Search + AI Summaries in 5 minutes!
 
 ## ⚡ 5-Minute Setup
 
-### Step 1: Get Your Free Gemini API Key (2 minutes)
+### Step 1: Get Your Free Groq API Key (2 minutes)
 
-1. Open [Google AI Studio](https://aistudio.google.com/app/apikey)
+1. Open [Groq Console](https://console.groq.com/keys)
 2. Sign in with your Google account
 3. Click **"Create API Key"** or **"Get API Key"**
 4. Copy the generated key (looks like: `AIzaSyC...`)

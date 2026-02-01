@@ -20,12 +20,13 @@ const MAX_RECENTS = 5;
 const MAX_HISTORY = 50; // Limit history to prevent excessive storage
 
 // =========================
-// Gemini API Integration
+// Groq API Integration (OpenAI-compatible)
 // =========================
-class GeminiAPI {
+class GroqAPI {
   constructor(apiKey) {
     this.apiKey = apiKey;
-    this.baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+    this.baseUrl = 'https://api.groq.com/openai/v1/chat/completions';
+    this.model = 'llama-3.3-70b-versatile'; // Fast and high quality
   }
 
   async generateSummary(searchQuery, country, dateRange) {
@@ -48,23 +49,21 @@ Provide:
 Be concise and informative.`;
 
     try {
-      const response = await fetch(`${this.baseUrl}?key=${this.apiKey}`, {
+      const response = await fetch(this.baseUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.apiKey}`
         },
         body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: prompt
-            }]
+          model: this.model,
+          messages: [{
+            role: 'user',
+            content: prompt
           }],
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 500, // Cost-efficient: limit output
-            topP: 0.8,
-            topK: 40
-          }
+          temperature: 0.7,
+          max_tokens: 500, // Cost-efficient: limit output
+          top_p: 0.8
         })
       });
 
@@ -74,15 +73,15 @@ Be concise and informative.`;
       }
 
       const data = await response.json();
-      const summary = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      const summary = data.choices?.[0]?.message?.content;
       
       if (!summary) {
         throw new Error('No summary generated');
       }
 
-      return summary;
+      return summary.trim();
     } catch (error) {
-      console.error('Gemini API error:', error);
+      console.error('Groq API error:', error);
       throw error;
     }
   }
@@ -704,10 +703,10 @@ function showSummaryModal(data) {
     return;
   }
 
-  const gemini = new GeminiAPI(apiKey);
+  const groq = new GroqAPI(apiKey);
   const dateRange = data.dateRange ? `${data.startDate} to ${data.endDate}` : null;
 
-  gemini.generateSummary(data.query, data.country, dateRange)
+  groq.generateSummary(data.query, data.country, dateRange)
     .then(summary => {
       loadingState.classList.add('hidden');
       summaryContent.classList.remove('hidden');

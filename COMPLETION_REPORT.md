@@ -8,7 +8,7 @@
 
 | # | Requirement | Status | Details |
 |---|-------------|--------|---------|
-| 1 | Gemini API Integration | ✅ DONE | Free tier, cost-efficient prompting |
+| 1 | Groq API Integration | ✅ DONE | Free tier, cost-efficient prompting |
 | 2 | AI summary generation | ✅ DONE | Context, trends, keywords in <5 sec |
 | 3 | Modal with AI summary | ✅ DONE | Loading/success/error states |
 | 4 | "Continue to Google News" button | ✅ DONE | Opens in new tab |
@@ -55,7 +55,7 @@
 ### Documentation (6 Files)
 1. **README.md** (7 KB)
    - Complete feature documentation
-   - Setup instructions for Gemini API
+   - Setup instructions for Groq API
    - Usage tips and troubleshooting
    - Future enhancement ideas
 
@@ -142,7 +142,7 @@
 ### Implementation Costs
 - **Development:** $0 (completed)
 - **Deployment:** $0 (GitHub Pages free)
-- **Gemini API:** $0 (free tier)
+- **Groq API:** $0 (free tier)
 - **Total:** **$0.00** 🎉
 
 ### Usage Costs (Free Tier)
@@ -242,8 +242,8 @@ See DEPLOYMENT.md for detailed instructions
 
 ### Required (20 minutes total)
 
-1. **Get Gemini API Key** (5 minutes)
-   - Visit: https://aistudio.google.com/app/apikey
+1. **Get Groq API Key** (5 minutes)
+   - Visit: https://console.groq.com/keys
    - Sign in and create API key
    - Copy and save securely
 
@@ -341,7 +341,7 @@ See DEPLOYMENT.md for detailed instructions
 ## 🎓 Learning Outcomes
 
 ### Technologies Used
-- Google Gemini API (generative AI)
+- Google Groq API (generative AI)
 - SheetJS (Excel export)
 - localStorage API (data persistence)
 - DaisyUI + Tailwind CSS (UI framework)

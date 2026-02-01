@@ -9,7 +9,7 @@ Comprehensive testing checklist for the News Search application.
 **Test 1.1: First Load - No API Key**
 - [ ] Open application for the first time
 - [ ] Yellow warning banner should appear at top
-- [ ] Banner text: "Gemini API Key Required"
+- [ ] Banner text: "Groq API Key Required"
 - [ ] Click "Configure Now" → should switch to Settings tab
 
 **Test 1.2: API Key Configuration**
@@ -255,8 +255,8 @@ Comprehensive testing checklist for the News Search application.
 
 **Test 6.4: Settings Link**
 - [ ] Click "Get API Key (Free)" link
-- [ ] Should open Google AI Studio in new tab
-- [ ] URL: https://aistudio.google.com/app/apikey
+- [ ] Should open Groq Console in new tab
+- [ ] URL: https://console.groq.com/keys
 
 ### 7. Tab Navigation Tests
 

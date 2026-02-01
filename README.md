@@ -1,11 +1,11 @@
 # Global News Search with AI Summaries
 
-An enhanced news search application that provides AI-powered summaries before directing you to Google News results. Features include search history, Excel export, and cost-efficient Gemini API integration.
+An enhanced news search application that provides AI-powered summaries before directing you to Google News results. Features include search history, Excel export, and cost-efficient Groq API integration.
 
 ## 🚀 Features
 
 ### 1. **AI Summary Generation**
-- Powered by Google Gemini AI (free tier)
+- Powered by Groq AI AI (free tier)
 - Generates concise summaries with context, trends, and related keywords
 - Cost-efficient: Only one API call per search
 - Smart prompt engineering to minimize token usage
@@ -36,9 +36,9 @@ An enhanced news search application that provides AI-powered summaries before di
 
 ## 📋 Setup Instructions
 
-### Step 1: Get Your Free Gemini API Key
+### Step 1: Get Your Free Groq API Key
 
-1. Visit [Google AI Studio](https://aistudio.google.com/app/apikey)
+1. Visit [Groq Console](https://console.groq.com/keys)
 2. Sign in with your Google account
 3. Click "Get API Key" or "Create API Key"
 4. Copy the generated API key
@@ -54,10 +54,10 @@ More than enough for news searches!
 
 1. Open the application in your browser
 2. Click the **Settings** tab
-3. Paste your API key in the "Gemini API Key" field
+3. Paste your API key in the "Groq API Key" field
 4. Click "Save Settings"
 
-**Your API key is stored locally in your browser** - it never leaves your device except when making requests directly to Google's Gemini API.
+**Your API key is stored locally in your browser** - it never leaves your device except when making requests directly to Google's Groq API.
 
 ### Step 3: Start Searching!
 
@@ -96,7 +96,7 @@ Since you mentioned being cost-sensitive, here are tips to minimize API usage:
 
 - **Frontend Only**: No backend required - runs entirely in browser
 - **Storage**: localStorage for API key, settings, and history
-- **API**: Direct calls to Google Gemini API (no proxy needed)
+- **API**: Direct calls to Google Groq API (no proxy needed)
 - **Export**: SheetJS (xlsx) library for Excel generation
 
 ### Files
@@ -125,7 +125,7 @@ All data is stored locally in your browser using localStorage:
 
 **Privacy**: No data leaves your device except:
 - Search queries sent to Google News (standard search behavior)
-- AI summary requests sent to Google Gemini API
+- AI summary requests sent to Google Groq API
 
 ## 🛠️ Development
 
@@ -182,7 +182,7 @@ const MAX_HISTORY = 50; // Store more or fewer searches
 ### Version 2.0 (Current)
 
 **New Features:**
-- ✨ AI summary generation with Gemini API
+- ✨ AI summary generation with Groq API
 - 📊 Search history with localStorage
 - 📥 Excel export (individual & bulk)
 - ⚙️ Settings page with API key management
@@ -215,7 +215,7 @@ MIT License - feel free to use and modify as needed!
 
 ## 🙏 Credits
 
-- **Google Gemini API**: AI summary generation
+- **Google Groq API**: AI summary generation
 - **Google News**: News search results
 - **DaisyUI + Tailwind CSS**: UI framework
 - **SheetJS**: Excel export functionality

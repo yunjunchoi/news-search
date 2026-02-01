@@ -27,7 +27,7 @@ git push origin main
 3. **Configure API Key**:
    - Visit your deployed site
    - Go to Settings tab
-   - Enter your Gemini API key
+   - Enter your Groq API key
    - Save settings
 
 **Done!** 🎉
@@ -152,7 +152,7 @@ Add before `</head>`:
 
 Before deploying to production:
 
-- [ ] Test with valid Gemini API key
+- [ ] Test with valid Groq API key
 - [ ] Test without API key (should show warning)
 - [ ] Test AI toggle on/off
 - [ ] Test search with multiple keywords

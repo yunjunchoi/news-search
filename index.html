@@ -43,8 +43,8 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
             <div>
-                <h3 class="font-bold">Gemini API Key Required</h3>
-                <div class="text-sm">AI summaries need a Gemini API key. 
+                <h3 class="font-bold">Groq API Key Required</h3>
+                <div class="text-sm">AI summaries need a Groq API key. 
                     <button id="showApiKeyBtn" class="btn btn-xs btn-ghost underline">Configure Now</button>
                 </div>
             </div>
@@ -142,7 +142,7 @@
 
             <div class="mt-4 text-sm text-gray-600">
                 <p>💡 Tip: Multiple search terms will be combined with <strong>AND</strong>. Date filters will be applied to narrow down results.</p>
-                <p>🤖 AI summaries powered by Google Gemini will help you understand the context before searching.</p>
+                <p>🤖 AI summaries powered by Groq AI will help you understand the context before searching.</p>
             </div>
         </div>
 
@@ -182,15 +182,15 @@
                     
                     <div class="form-control">
                         <label class="label">
-                            <span class="label-text">Gemini API Key</span>
+                            <span class="label-text">Groq API Key</span>
                             <span class="label-text-alt">
-                                <a href="https://aistudio.google.com/app/apikey" target="_blank" class="link link-primary text-xs">
+                                <a href="https://console.groq.com/keys" target="_blank" class="link link-primary text-xs">
                                     Get API Key (Free)
                                 </a>
                             </span>
                         </label>
                         <div class="join w-full">
-                            <input type="password" id="apiKeyInput" class="input input-bordered join-item w-full" placeholder="Enter your Gemini API key">
+                            <input type="password" id="apiKeyInput" class="input input-bordered join-item w-full" placeholder="Enter your Groq API key">
                             <button id="toggleApiKeyBtn" class="btn btn-square join-item">
                                 <svg id="eyeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -200,7 +200,7 @@
                         </div>
                         <label class="label">
                             <span class="label-text-alt text-gray-600">
-                                Your API key is stored locally in your browser. It's never sent to any server except Google's Gemini API.
+                                Your API key is stored locally in your browser. It's never sent to any server except Google's Groq API.
                             </span>
                         </label>
                     </div>
@@ -235,10 +235,10 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                         <div>
-                            <h3 class="font-bold">How to get a free Gemini API key:</h3>
+                            <h3 class="font-bold">How to get a free Groq API key:</h3>
                             <div class="text-sm">
                                 <ol class="list-decimal ml-4 mt-2 space-y-1">
-                                    <li>Visit <a href="https://aistudio.google.com/app/apikey" target="_blank" class="link">Google AI Studio</a></li>
+                                    <li>Visit <a href="https://console.groq.com/keys" target="_blank" class="link">Groq Console</a></li>
                                     <li>Sign in with your Google account</li>
                                     <li>Click "Get API Key" or "Create API Key"</li>
                                     <li>Copy the key and paste it above</li>

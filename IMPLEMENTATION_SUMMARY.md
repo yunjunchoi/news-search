@@ -2,7 +2,7 @@
 
 ## ✅ What Was Implemented
 
-### 1. **Gemini API Integration** ✓
+### 1. **Groq API Integration** ✓
 **Status:** Complete and cost-efficient
 
 **Implementation:**
@@ -196,7 +196,7 @@ news-search/
 
 ### ⏳ Recommended Additional Testing
 - [ ] Test on actual deployment (GitHub Pages)
-- [ ] Test with real Gemini API key
+- [ ] Test with real Groq API key
 - [ ] Test on mobile devices
 - [ ] Test in Safari, Firefox, Edge
 - [ ] Test with 50+ history items
@@ -236,7 +236,7 @@ See **DEPLOYMENT.md** for instructions
 
 ### Current Implementation: **FREE** ✓
 
-**Gemini API Free Tier:**
+**Groq API Free Tier:**
 - 15 requests/minute
 - 1,500 requests/day
 - 1 million tokens/day
@@ -265,7 +265,7 @@ See **DEPLOYMENT.md** for instructions
 
 | Requirement | Status | Notes |
 |-------------|--------|-------|
-| Gemini API integration | ✅ | Free tier, cost-efficient |
+| Groq API integration | ✅ | Free tier, cost-efficient |
 | AI summary generation | ✅ | Context, trends, keywords |
 | Modal before redirect | ✅ | Loading/success/error states |
 | Continue to News button | ✅ | Opens in new tab |
@@ -322,7 +322,7 @@ See **DEPLOYMENT.md** for instructions
 ## 🔄 Next Steps
 
 ### Immediate (Required)
-1. **Get Gemini API key** - [Google AI Studio](https://aistudio.google.com/app/apikey)
+1. **Get Groq API key** - [Groq Console](https://console.groq.com/keys)
 2. **Test locally** - `python -m http.server 8000`
 3. **Configure API key** - Settings tab
 4. **Test end-to-end** - Search → Summary → News
@@ -347,7 +347,7 @@ See **DEPLOYMENT.md** for instructions
 2. **Rate limiting** - 15 requests/minute (unlikely to hit in normal use)
 3. **Browser storage limit** - ~10MB total (50 searches = ~500KB)
 4. **No backend** - Can't sync across devices
-5. **CORS** - Requires direct API calls (works for Gemini API)
+5. **CORS** - Requires direct API calls (works for Groq API)
 
 **None of these are critical issues for the intended use case.**
 
@@ -424,7 +424,7 @@ See **DEPLOYMENT.md** for instructions
 
 **All requirements implemented successfully!**
 
-✅ AI summaries with Gemini API (cost-efficient)  
+✅ AI summaries with Groq API (cost-efficient)  
 ✅ Modal interface before redirect  
 ✅ Search history with localStorage  
 ✅ Excel export (individual + bulk)  

@@ -5,7 +5,7 @@
 All features have been implemented and tested! The code is ready to deploy.
 
 **Completed:**
-- ✅ Gemini API integration (cost-efficient)
+- ✅ Groq API integration (cost-efficient)
 - ✅ AI summary modal interface
 - ✅ Search history with localStorage
 - ✅ Excel export (individual & bulk)
@@ -18,12 +18,12 @@ All features have been implemented and tested! The code is ready to deploy.
 
 ## 📋 Your Action Items
 
-### 1. Get Your Gemini API Key (5 minutes)
+### 1. Get Your Groq API Key (5 minutes)
 
 This is the ONLY thing you need to do before using the app!
 
 **Steps:**
-1. Visit https://aistudio.google.com/app/apikey
+1. Visit https://console.groq.com/keys
 2. Sign in with your Google account
 3. Click "Create API Key" or "Get API Key"
 4. Copy the key (looks like: `AIzaSyC...`)
@@ -142,7 +142,7 @@ All documentation is in the repository:
 ### Important URLs:
 - **Local test:** http://localhost:8000
 - **Deployment:** https://yunjunchoi.github.io/news-search/
-- **Get API key:** https://aistudio.google.com/app/apikey
+- **Get API key:** https://console.groq.com/keys
 - **Cloud Console:** https://console.cloud.google.com
 
 ### Common Commands:
@@ -234,7 +234,7 @@ git push -u origin main
 - **History load:** Instant for < 50 items
 
 ### Costs
-- **Gemini API:** $0.00 (free tier)
+- **Groq API:** $0.00 (free tier)
 - **GitHub Pages:** $0.00 (free)
 - **Total:** **$0.00** 🎉
 
@@ -248,7 +248,7 @@ git push -u origin main
 ## 🎉 You're All Set!
 
 **Summary:**
-1. ✅ Get Gemini API key (5 min)
+1. ✅ Get Groq API key (5 min)
 2. ✅ Test locally (5 min)
 3. ✅ Push to GitHub + enable Pages (10 min)
 4. ✅ Start searching! 🔍
