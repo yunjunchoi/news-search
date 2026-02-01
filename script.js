@@ -34,26 +34,23 @@ class GroqAPI {
       throw new Error('API key not configured');
     }
 
-    // Detailed prompt for comprehensive news analysis
-    const prompt = `Analyze this news search query and provide a detailed, well-structured summary:
+    // Detect browser language
+    const userLang = navigator.language || navigator.userLanguage;
+    const langName = new Intl.DisplayNames([userLang], { type: 'language' }).of(userLang);
 
-Search Query: "${searchQuery}"
-Region: ${country}
-${dateRange ? `Date Range: ${dateRange}` : ''}
+    // Simple and efficient prompt
+    const prompt = `Summarize news about: "${searchQuery}" in ${country}${dateRange ? ` (${dateRange})` : ''}
 
-Please provide a comprehensive analysis with:
+Respond in ${langName} language.
 
-1. **Overview**: Brief context and significance of this topic (2-3 sentences)
+Include:
+- Overview (2-3 sentences)
+- Key events by category
+- Timeline
+- Impact
+- Related keywords
 
-2. **Key Events & Developments**: Major news stories, events, or announcements (organized by category if relevant - politics, economy, society, international relations, etc.)
-
-3. **Timeline**: Important dates and milestones (if applicable)
-
-4. **Impact & Implications**: What this means for the region/world
-
-5. **Related Keywords**: Topics, people, organizations, or concepts to explore further
-
-Use clear formatting with headers and bullet points. Be detailed but organized. Aim for 400-600 words.`;
+Format with headers and bullets. 400-600 words.`;
 
     try {
       const response = await fetch(this.baseUrl, {
