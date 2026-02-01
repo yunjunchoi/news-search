@@ -34,19 +34,26 @@ class GroqAPI {
       throw new Error('API key not configured');
     }
 
-    // Cost-efficient prompt: Concise and focused
-    const prompt = `Analyze this news search query and provide a brief summary (max 200 words):
+    // Detailed prompt for comprehensive news analysis
+    const prompt = `Analyze this news search query and provide a detailed, well-structured summary:
 
 Search Query: "${searchQuery}"
 Region: ${country}
 ${dateRange ? `Date Range: ${dateRange}` : ''}
 
-Provide:
-1. Context & Background (2-3 sentences)
-2. Key Trends & Topics (bullet points)
-3. Related Keywords (comma-separated)
+Please provide a comprehensive analysis with:
 
-Be concise and informative.`;
+1. **Overview**: Brief context and significance of this topic (2-3 sentences)
+
+2. **Key Events & Developments**: Major news stories, events, or announcements (organized by category if relevant - politics, economy, society, international relations, etc.)
+
+3. **Timeline**: Important dates and milestones (if applicable)
+
+4. **Impact & Implications**: What this means for the region/world
+
+5. **Related Keywords**: Topics, people, organizations, or concepts to explore further
+
+Use clear formatting with headers and bullet points. Be detailed but organized. Aim for 400-600 words.`;
 
     try {
       const response = await fetch(this.baseUrl, {
@@ -62,7 +69,7 @@ Be concise and informative.`;
             content: prompt
           }],
           temperature: 0.7,
-          max_tokens: 500, // Cost-efficient: limit output
+          max_tokens: 1500, // Detailed analysis (400-600 words)
           top_p: 0.8
         })
       });
